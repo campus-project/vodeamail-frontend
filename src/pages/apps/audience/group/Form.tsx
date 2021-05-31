@@ -62,16 +62,15 @@ const GroupForm: React.FC<any> = () => {
       relations: ["contacts"],
     })
       .then((resp: AxiosResponse<Resource<Group>>) => {
-        const { data: group } = resp.data;
-
-        Object.assign(group, {
-          description: group.description || "",
-        });
-
-        setContacts(group.contacts || []);
-        setData(group);
-
         if (isMounted.current) {
+          const { data: group } = resp.data;
+
+          Object.assign(group, {
+            description: group.description || "",
+          });
+
+          setContacts(group.contacts || []);
+          setData(group);
           setOnFetchData(false);
         }
       })
