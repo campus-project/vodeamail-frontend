@@ -23,6 +23,7 @@ export interface MuiAutoCompleteProps
   > {
   repository: any;
   onSelected: (option: any) => void;
+  methodName?: string;
   isKeepClear?: boolean;
   optionLabel?: string | TypeFunctionOptionLabel;
   optionSelected?: string | TypeFunctionOptionSelected;
@@ -38,6 +39,7 @@ const MuiAutoComplete = withStyles((theme: Theme) =>
   const {
     repository,
     onSelected,
+    methodName = "all",
     isKeepClear = false,
     optionLabel = "name",
     optionSelected = "id",
@@ -66,8 +68,7 @@ const MuiAutoComplete = withStyles((theme: Theme) =>
     setLoading(true);
     setOptions([]);
 
-    await repository
-      .all(params)
+    await repository[methodName](params)
       .then((resp: AxiosResponse<Resource<any[]>>) => {
         setOptions(resp.data.data);
 

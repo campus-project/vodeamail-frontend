@@ -38,7 +38,7 @@ const ResetPassword: React.FC<any> = () => {
     resolver: yupResolver(
       yup.object().shape({
         email: yup.string().email().required().label("Email"),
-        password: yup.string().min(6).required().label("Password"),
+        password: yup.string().min(8).required().label("Password"),
         password_confirmation: yup
           .string()
           .oneOf([yup.ref("password"), null], "${label} does not match")

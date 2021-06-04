@@ -45,9 +45,9 @@ const GroupForm: React.FC<any> = () => {
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
 
-  const [data, setData] = React.useState<Group>(defaultValues);
-  const [onFetchData, setOnFetchData] = React.useState<boolean>(Boolean(id));
-  const [loading, setLoading] = React.useState<boolean>(false);
+  const [data, setData] = useState<Group>(defaultValues);
+  const [onFetchData, setOnFetchData] = useState<boolean>(Boolean(id));
+  const [loading, setLoading] = useState<boolean>(false);
 
   const loadData = useCallback(async () => {
     if (!id) {
@@ -62,16 +62,15 @@ const GroupForm: React.FC<any> = () => {
       relations: ["contacts"],
     })
       .then((resp: AxiosResponse<Resource<Group>>) => {
-        const { data: group } = resp.data;
-
-        Object.assign(group, {
-          description: group.description || "",
-        });
-
-        setContacts(group.contacts || []);
-        setData(group);
-
         if (isMounted.current) {
+          const { data: group } = resp.data;
+
+          Object.assign(group, {
+            description: group.description || "",
+          });
+
+          setContacts(group.contacts || []);
+          setData(group);
           setOnFetchData(false);
         }
       })
@@ -133,13 +132,13 @@ const GroupForm: React.FC<any> = () => {
       .then(() => {
         if (isMounted.current) {
           setLoading(false);
+
+          enqueueSnackbar(`Successfully ${id ? "update" : "create"} group.`, {
+            variant: "success",
+          });
+
+          navigate("/apps/audience?tab=1");
         }
-
-        enqueueSnackbar(`Successfully ${id ? "Update" : "Create"} group`, {
-          variant: "success",
-        });
-
-        navigate("/apps/audience?tab=1");
       })
       .catch((e: any) => {
         if (isMounted.current) {
@@ -175,7 +174,7 @@ const GroupForm: React.FC<any> = () => {
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <Grid container spacing={3}>
-            <Grid item xs={12}>
+            <Grid item md={8} xs={12}>
               <MuiCard>
                 <MuiCardHead>
                   <Typography variant={"h6"}>Information</Typography>

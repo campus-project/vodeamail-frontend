@@ -38,8 +38,8 @@ const initialState: IMenuState = {
       icon: "vicon-megaphone",
       permissions: "any",
       otherUrls: [
-        "/apps/campaign/email-campaign/create",
-        "/apps/campaign/email-campaign/:slug/update",
+        "/apps/campaign/campaign/create",
+        "/apps/campaign/campaign/:slug/update",
         "/apps/campaign/email-template/create",
         "/apps/campaign/email-template/:slug/update",
       ],
@@ -48,12 +48,12 @@ const initialState: IMenuState = {
           label: "Email Campaign",
           href: "/apps/campaign/email-campaign",
           otherUrls: [
-            "/apps/campaign/email-campaign/create",
-            "/apps/campaign/email-campaign/:slug/update",
+            "/apps/campaign/campaign/create",
+            "/apps/campaign/campaign/:slug/update",
           ],
         },
         {
-          label: "Email Templaet",
+          label: "Email Template",
           href: "/apps/campaign/email-template",
         },
       ],

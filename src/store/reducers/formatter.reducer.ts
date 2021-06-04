@@ -18,8 +18,8 @@ export interface IFormatterAction {
 }
 
 const initialState: IFormatterState = {
-  date: "MMM DD YYYY",
-  datetime: "MMM DD YYYY HH:mm",
+  date: "DD/MMM/YYYY",
+  datetime: "DD/MMM/YYYY HH:mm",
   numberLocale: "en-US",
 };
 

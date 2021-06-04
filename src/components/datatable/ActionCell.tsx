@@ -2,7 +2,7 @@ import { createStyles, Theme, withStyles } from "@material-ui/core/styles";
 import { Box } from "@material-ui/core";
 import { BoxProps } from "@material-ui/core/Box/Box";
 
-export interface MuiCardProps extends BoxProps {}
+export interface ActionCellProps extends BoxProps {}
 
 const ActionCell = withStyles((theme: Theme) =>
   createStyles({
@@ -18,6 +18,6 @@ const ActionCell = withStyles((theme: Theme) =>
       },
     },
   })
-)((props: MuiCardProps) => <Box {...props} />);
+)((props: ActionCellProps) => <Box {...props} />);
 
 export default ActionCell;

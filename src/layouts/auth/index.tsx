@@ -12,11 +12,9 @@ import Loading from "../../components/ui/Loading";
 
 const LayoutAuth: React.FC<any> = () => {
   const { isOnFetchingUser } = useJwtService();
-  const { isLogged } = useSelector(({ auth }: any) => {
-    return {
-      isLogged: auth.isLogged,
-    };
-  });
+  const { isLogged } = useSelector(({ auth }: any) => ({
+    isLogged: auth.isLogged,
+  }));
 
   if (isOnFetchingUser) {
     return <Loading />;

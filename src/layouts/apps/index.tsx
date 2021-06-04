@@ -20,12 +20,10 @@ const LayoutApps: React.FC<any> = () => {
   const dispatch = useDispatch();
   const { isOnFetchingUser } = useJwtService();
 
-  const { isLogged, isOpen } = useSelector(({ auth, sidebar }: any) => {
-    return {
-      isLogged: auth.isLogged,
-      isOpen: sidebar.isOpen,
-    };
-  });
+  const { isLogged, isOpen } = useSelector(({ auth, sidebar }: any) => ({
+    isLogged: auth.isLogged,
+    isOpen: sidebar.isOpen,
+  }));
 
   useEffect(() => {
     dispatch(initMenu([]));

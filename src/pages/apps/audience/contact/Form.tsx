@@ -50,9 +50,9 @@ const ContactForm: React.FC<any> = () => {
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
 
-  const [data, setData] = React.useState<Contact>(defaultValues);
-  const [onFetchData, setOnFetchData] = React.useState<boolean>(Boolean(id));
-  const [loading, setLoading] = React.useState<boolean>(false);
+  const [data, setData] = useState<Contact>(defaultValues);
+  const [onFetchData, setOnFetchData] = useState<boolean>(Boolean(id));
+  const [loading, setLoading] = useState<boolean>(false);
 
   const loadData = useCallback(async () => {
     if (!id) {
@@ -67,23 +67,22 @@ const ContactForm: React.FC<any> = () => {
       relations: ["groups"],
     })
       .then((resp: AxiosResponse<Resource<Contact>>) => {
-        const { data: contact } = resp.data;
-
-        Object.assign(contact, {
-          name: contact.name || "",
-          mobile_phone: contact.mobile_phone || "",
-          address_line_1: contact.address_line_1 || "",
-          address_line_2: contact.address_line_2 || "",
-          country: contact.country || "",
-          province: contact.province || "",
-          city: contact.city || "",
-          postal_code: contact.postal_code || "",
-        });
-
-        setGroups(contact.groups || []);
-        setData(contact);
-
         if (isMounted.current) {
+          const { data: contact } = resp.data;
+
+          Object.assign(contact, {
+            name: contact.name || "",
+            mobile_phone: contact.mobile_phone || "",
+            address_line_1: contact.address_line_1 || "",
+            address_line_2: contact.address_line_2 || "",
+            country: contact.country || "",
+            province: contact.province || "",
+            city: contact.city || "",
+            postal_code: contact.postal_code || "",
+          });
+
+          setGroups(contact.groups || []);
+          setData(contact);
           setOnFetchData(false);
         }
       })
@@ -153,13 +152,13 @@ const ContactForm: React.FC<any> = () => {
       .then(() => {
         if (isMounted.current) {
           setLoading(false);
+
+          enqueueSnackbar(`Successfully ${id ? "update" : "create"} contact.`, {
+            variant: "success",
+          });
+
+          navigate("/apps/audience?tab=0");
         }
-
-        enqueueSnackbar(`Successfully ${id ? "Update" : "Create"} Contact`, {
-          variant: "success",
-        });
-
-        navigate("/apps/audience?tab=0");
       })
       .catch((e: any) => {
         if (isMounted.current) {
@@ -195,7 +194,7 @@ const ContactForm: React.FC<any> = () => {
       <Grid container spacing={3}>
         <Grid item md={8} xs={12}>
           <Grid container spacing={3}>
-            <Grid item xs={12}>
+            <Grid item md={8} xs={12}>
               <MuiCard>
                 <MuiCardHead>
                   <Typography variant={"h6"}>Information</Typography>

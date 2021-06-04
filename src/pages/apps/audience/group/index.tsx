@@ -25,9 +25,9 @@ const GroupList: React.FC<any> = () => {
   const { handleDelete } = useDeleteResource(GroupRepository);
 
   const [data, setData] = useState<Group[]>([]);
-  const [totalData, setTotalData] = React.useState<number>(10);
-  const [loading, setLoading] = React.useState<boolean>(true);
-  const [dataQuery, setDataQuery] = React.useState<any>({
+  const [totalData, setTotalData] = useState<number>(10);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [dataQuery, setDataQuery] = useState<any>({
     page: 1,
     per_page: 5,
   });

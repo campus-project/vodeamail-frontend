@@ -47,7 +47,7 @@ const Register: React.FC<any> = () => {
           .string()
           .required()
           .label("Company or Organization"),
-        password: yup.string().min(6).required().label("Password"),
+        password: yup.string().min(8).required().label("Password"),
         password_confirmation: yup
           .string()
           .oneOf([yup.ref("password"), null], "${label} does not match")

@@ -1,33 +1,34 @@
 import React, { useCallback, useMemo, useState } from "react";
 import { useIsMounted } from "../../../../utilities/hooks/mounted.hook";
-import { Contact } from "../../../../models/Contact";
-import { ContactRepository } from "../../../../repositories/ContactRepository";
 import { useDeleteResource } from "../../../../utilities/hooks/delete-resource.hook";
+import { User } from "../../../../models/User";
 import MuiDatatable, {
   IMuiDatatableColumn,
 } from "../../../../components/datatable/Index";
+import _ from "lodash";
+import DataDatetime from "../../../../components/data/Datetime";
 import ActionCell from "../../../../components/datatable/ActionCell";
-import { IconButton, Typography } from "@material-ui/core";
+import { Box, Button, IconButton, Typography } from "@material-ui/core";
 import { Link as LinkDom } from "react-router-dom";
 import {
   DeleteOutlined as DeleteOutlinedIcon,
   EditOutlined as EditOutlinedIcon,
 } from "@material-ui/icons";
-import { Resource } from "../../../../interfaces/Resource";
 import { AxiosResponse } from "axios";
+import { Resource } from "../../../../interfaces/Resource";
 import MuiCard from "../../../../components/ui/card/MuiCard";
-import DataDatetime from "../../../../components/data/Datetime";
-import DataNumber from "../../../../components/data/Number";
-import _ from "lodash";
-import useStyles from "../style";
-import { Alert } from "@material-ui/lab";
+import { UserRepository } from "../../../../repositories/UserRepository";
+import { useSelector } from "react-redux";
 
-const ContactList: React.FC<any> = () => {
-  const classes = useStyles();
+const UserList: React.FC<any> = () => {
   const isMounted = useIsMounted();
-  const { handleDelete } = useDeleteResource(ContactRepository);
+  const { handleDelete } = useDeleteResource(UserRepository);
 
-  const [data, setData] = useState<Contact[]>([]);
+  const { user } = useSelector(({ auth }: any) => ({
+    user: auth.user,
+  }));
+
+  const [data, setData] = useState<User[]>([]);
   const [totalData, setTotalData] = useState<number>(10);
   const [loading, setLoading] = useState<boolean>(true);
   const [dataQuery, setDataQuery] = useState<any>({
@@ -37,42 +38,19 @@ const ContactList: React.FC<any> = () => {
 
   const columns: IMuiDatatableColumn[] = [
     {
+      label: "Name",
+      name: "name",
+      columnName: "user.name",
+    },
+    {
       label: "Email",
       name: "email",
-      columnName: "contact.email",
-    },
-    {
-      label: "Total Group",
-      name: "summary",
-      columnName: "summary.total_group",
-      options: {
-        customBodyRender: (value) => (
-          <DataNumber data={_.get(value, "total_group")} />
-        ),
-      },
-    },
-    {
-      label: "Status",
-      name: "is_subscribed",
-      columnName: "contact.is_subscribed",
-      options: {
-        customBodyRender: (value) => (
-          <Alert
-            className={classes.status}
-            icon={false}
-            severity={value ? "success" : "error"}
-          >
-            <Typography variant={"caption"}>
-              {value ? "Subscribed" : "Not Subscribed"}
-            </Typography>
-          </Alert>
-        ),
-      },
+      columnName: "user.email",
     },
     {
       label: "Updated At",
       name: "updated_at",
-      columnName: "contact.updated_at",
+      columnName: "user.updated_at",
       options: {
         customBodyRender: (value) => <DataDatetime data={value} />,
       },
@@ -82,22 +60,26 @@ const ContactList: React.FC<any> = () => {
       name: "id",
       options: {
         customBodyRender: (value) => {
+          const canDelete = value !== user.id;
+
           return (
             <ActionCell>
               <IconButton
                 component={LinkDom}
-                to={`/apps/audience/contact/${value}/edit`}
+                to={`/apps/preference/user/${value}/edit`}
               >
                 <EditOutlinedIcon />
               </IconButton>
 
-              <IconButton
-                onClick={() => {
-                  handleDelete(value).then(() => loadData(dataQuery));
-                }}
-              >
-                <DeleteOutlinedIcon />
-              </IconButton>
+              {canDelete && (
+                <IconButton
+                  onClick={() => {
+                    handleDelete(value).then(() => loadData(dataQuery));
+                  }}
+                >
+                  <DeleteOutlinedIcon />
+                </IconButton>
+              )}
             </ActionCell>
           );
         },
@@ -110,10 +92,10 @@ const ContactList: React.FC<any> = () => {
       setLoading(true);
     }
 
-    await ContactRepository.all({
+    await UserRepository.all({
       ...params,
     })
-      .then((resp: AxiosResponse<Resource<Contact[]>>) => {
+      .then((resp: AxiosResponse<Resource<User[]>>) => {
         if (isMounted.current) {
           setLoading(false);
           setData(resp.data.data);
@@ -159,21 +141,38 @@ const ContactList: React.FC<any> = () => {
   );
 
   return (
-    <MuiCard>
-      <MuiDatatable
-        data={data}
-        columns={columns}
-        loading={loading}
-        onTableChange={onTableChange}
-        options={{
-          count: totalData,
-          page: dataQuery.page - 1,
-          rowsPerPage: dataQuery.per_page,
-        }}
-        inputSearch={{ onChange: onSearchChange }}
-      />
-    </MuiCard>
+    <>
+      <Box display={"flex"} justifyContent={"space-between"}>
+        <Typography variant={"h5"}>User</Typography>
+
+        <Button
+          component={LinkDom}
+          to={"/apps/preference/user/create"}
+          variant={"contained"}
+          color={"primary"}
+        >
+          Create User
+        </Button>
+      </Box>
+
+      <Box mt={3}>
+        <MuiCard>
+          <MuiDatatable
+            data={data}
+            columns={columns}
+            loading={loading}
+            onTableChange={onTableChange}
+            options={{
+              count: totalData,
+              page: dataQuery.page - 1,
+              rowsPerPage: dataQuery.per_page,
+            }}
+            inputSearch={{ onChange: onSearchChange }}
+          />
+        </MuiCard>
+      </Box>
+    </>
   );
 };
 
-export default ContactList;
+export default UserList;
