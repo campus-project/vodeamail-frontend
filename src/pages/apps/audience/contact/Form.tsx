@@ -194,7 +194,7 @@ const ContactForm: React.FC<any> = () => {
       <Grid container spacing={3}>
         <Grid item md={8} xs={12}>
           <Grid container spacing={3}>
-            <Grid item md={8} xs={12}>
+            <Grid item xs={12}>
               <MuiCard>
                 <MuiCardHead>
                   <Typography variant={"h6"}>Information</Typography>
@@ -203,7 +203,7 @@ const ContactForm: React.FC<any> = () => {
                 <MuiCardBody>
                   <Box py={1}>
                     <Grid container spacing={3}>
-                      <Grid item md={6} xs={12}>
+                      <Grid item xs={12}>
                         <Controller
                           control={control}
                           name={"email"}

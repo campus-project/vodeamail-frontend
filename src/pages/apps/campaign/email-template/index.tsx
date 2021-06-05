@@ -40,7 +40,7 @@ const EmailTemplateList: React.FC<any> = () => {
     {
       label: "Updated At",
       name: "updated_at",
-      columnName: "role.updated_at",
+      columnName: "email_template.updated_at",
       options: {
         customBodyRender: (value) => <DataDatetime data={value} />,
       },

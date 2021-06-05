@@ -91,7 +91,7 @@ const Sidebar: React.FC<any> = () => {
         <Box p={2}>
           <Link
             component={LinkDom}
-            to={"/apps/campaign/campaign/create"}
+            to={"/apps/campaign/email-campaign/create"}
             onClick={handleClick}
           >
             <Button fullWidth variant="contained" color={"primary"}>
