@@ -130,7 +130,7 @@ const RoleForm: React.FC<any> = () => {
           </MuiButtonIconRounded>
         </Box>
         <Typography variant={"h5"}>
-          {id ? "Update " : "Create "} Group
+          {id ? "Update " : "Create "} Role
         </Typography>
       </Box>
 

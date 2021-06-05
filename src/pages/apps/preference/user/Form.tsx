@@ -136,7 +136,7 @@ const UserForm: React.FC<any> = () => {
           </MuiButtonIconRounded>
         </Box>
         <Typography variant={"h5"}>
-          {id ? "Update " : "Create "} Group
+          {id ? "Update " : "Create "} User
         </Typography>
       </Box>
 
