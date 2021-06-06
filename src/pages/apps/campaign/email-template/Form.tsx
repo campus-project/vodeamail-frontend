@@ -49,6 +49,7 @@ import exampleDesign from "./data/example-design";
 import exampleHtml from "./data/example-html";
 import exampleValueTags from "./data/example-value-tags";
 import mergeTags from "./data/merge-tags";
+import { setDraftEmailCampaign } from "../../../../store/actions/campaign.action";
 
 const defaultValues: EmailTemplate = {
   name: "",
@@ -65,22 +66,23 @@ const EmailTemplateForm: React.FC<any> = () => {
   const isMounted = useIsMounted();
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
+  const { from = null } = useQuerySearch();
+  const emailEditorRef = useRef(null);
+
+  const { isOpen, draftEmailCampaign } = useSelector(
+    ({ sidebar, campaign }: any) => ({
+      isOpen: sidebar.isOpen,
+      draftEmailCampaign: campaign.draftEmailCampaign,
+    })
+  );
+
+  const [isDefaultOpen] = useState<boolean>(isOpen);
+  const [showSaveButton, setShowSaveButton] = useState<boolean>(false);
+  const [dialogOpen, setDialogOpen] = useState<boolean>(false);
 
   const data = hookState<EmailTemplate>({ ...defaultValues, id });
   const [onFetchData, setOnFetchData] = useState<boolean>(Boolean(id));
   const [loading, setLoading] = useState<boolean>(false);
-
-  const emailEditorRef = useRef(null);
-  const { from = null } = useQuerySearch();
-
-  const [dialogOpen, setDialogOpen] = useState<boolean>(false);
-
-  const { isOpen } = useSelector(({ sidebar }: any) => ({
-    isOpen: sidebar.isOpen,
-  }));
-
-  const [isDefaultOpen] = useState<boolean>(isOpen);
-  const [showSaveButton, setShowSaveButton] = useState<boolean>(false);
 
   const loadData = useCallback(async () => {
     if (!id) {
@@ -159,11 +161,19 @@ const EmailTemplateForm: React.FC<any> = () => {
     }
   }, [emailEditorRef.current]);
 
-  const exportImage = () => {
+  const handleCancel = () => {
+    if (from === "campaign") {
+      navigate("/apps/campaign/email-campaign/create?from=template");
+    } else {
+      navigate("/apps/campaign/email-template");
+    }
+  };
+
+  const exportImage = (designData: any) => {
     return new Promise((resolve, reject) => {
       const emailData = JSON.stringify({
         displayMode: "email",
-        design: JSON.parse(data.design.value),
+        design: designData,
         mergeTags: JSON.parse(data.example_value_tags.value),
       });
 
@@ -181,13 +191,19 @@ const EmailTemplateForm: React.FC<any> = () => {
     });
   };
 
-  const handleCancel = () => {
-    if (from === "campaign") {
-      //todo: run reducer to update redux email templates
-      window.close();
-    } else {
-      navigate("/apps/campaign/email-template");
-    }
+  const exportHtml = () => {
+    return new Promise((resolve) => {
+      const emailEditor = emailEditorRef.current as unknown as ReactEmailEditor;
+      emailEditor.exportHtml(({ design, html }) => {
+        data.set((nodes) => ({
+          ...nodes,
+          design: JSON.stringify(design),
+          html: html,
+        }));
+
+        resolve(design);
+      });
+    });
   };
 
   const onSubmit = async (formData: EmailTemplate) => {
@@ -198,16 +214,8 @@ const EmailTemplateForm: React.FC<any> = () => {
       ...formData,
     }));
 
-    const emailEditor = emailEditorRef.current as unknown as ReactEmailEditor;
-    emailEditor.exportHtml(({ design, html }) => {
-      data.set((nodes) => ({
-        ...nodes,
-        design: JSON.stringify(design),
-        html: html,
-      }));
-    });
-
-    await exportImage()
+    const designData = await exportHtml().then((design) => design);
+    await exportImage(designData)
       .then((url: any) => data.image_url.set(url))
       .catch((e) => {
         if (isMounted.current) {
@@ -222,14 +230,24 @@ const EmailTemplateForm: React.FC<any> = () => {
       ? EmailTemplateRepository.update(id, data.value)
       : EmailTemplateRepository.create(data.value)
     )
-      .then(() => {
+      .then((resp: AxiosResponse<Resource<EmailTemplate>>) => {
         if (isMounted.current) {
           setLoading(false);
         }
 
+        const emailTemplateId = _.get(resp, "data.data.id");
+
         if (from === "campaign") {
-          //todo: run reducer to update redux email templates
-          window.close();
+          if (draftEmailCampaign !== null) {
+            dispatch(
+              setDraftEmailCampaign({
+                ...draftEmailCampaign,
+                email_template_id: emailTemplateId,
+              })
+            );
+          }
+
+          navigate("/apps/campaign/email-campaign/create?from=template");
         } else {
           navigate("/apps/campaign/email-template");
         }

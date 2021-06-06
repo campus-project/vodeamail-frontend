@@ -168,7 +168,7 @@ const Account: React.FC<any> = () => {
 const useStyles = makeStyles((theme) => ({
   root: {
     zIndex: theme.zIndex.drawer + 1,
-    boxShadow: "1px -2px 21px 0 rgb(93 130 170 / 21%)",
+    boxShadow: "1px -5px 21px 0 rgb(93 130 170 / 21%)",
   },
 
   menuButton: {

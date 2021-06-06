@@ -63,3 +63,5 @@ export const mapHookFormErrors = (errors: any) => {
 
   return newErrors;
 };
+
+export const $clone = (data: any) => JSON.parse(JSON.stringify(data));

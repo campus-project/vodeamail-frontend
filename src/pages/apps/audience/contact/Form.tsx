@@ -95,7 +95,6 @@ const ContactForm: React.FC<any> = () => {
       });
   }, [false]);
 
-  const [groups, setGroups] = useState<Group[]>([]);
   const { handleSubmit, errors, setError, control, reset } = useForm<Contact>({
     mode: "onChange",
     resolver: yupResolver(
@@ -124,11 +123,11 @@ const ContactForm: React.FC<any> = () => {
     reset(data);
   }, [data]);
 
-  const onDeleteGroup = (indexDeleted: number[]) => {
+  const [groups, setGroups] = useState<Group[]>([]);
+  const onDeleteGroup = (indexDeleted: number[]) =>
     setGroups((nodes) =>
       nodes.filter((group, index) => !indexDeleted.includes(index))
     );
-  };
 
   const onSelectedGroup = (group: Group | null) => {
     if (group === null) {

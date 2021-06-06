@@ -133,8 +133,7 @@ const EmailTemplateList: React.FC<any> = () => {
 
         <Button
           component={LinkDom}
-          to={"/apps/campaign/email-template/create?from=campaign"}
-          target={"_blank"}
+          to={"/apps/campaign/email-template/create"}
           variant={"contained"}
           color={"primary"}
         >

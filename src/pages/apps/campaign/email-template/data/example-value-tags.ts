@@ -14,7 +14,7 @@ const example = {
   org_telephone: "+1 (463) 703-3125",
   org_fax: "(240) 296-2050",
 
-  unsubscribe_url: `<a href="https://example.com">Unsubscribe</a>`,
+  unsubscribe_url: `Unsubscribe`,
 };
 
 export default example;

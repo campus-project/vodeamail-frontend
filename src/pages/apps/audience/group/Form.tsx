@@ -82,7 +82,6 @@ const GroupForm: React.FC<any> = () => {
       });
   }, [false]);
 
-  const [contacts, setContacts] = useState<Contact[]>([]);
   const { handleSubmit, errors, setError, control, reset } = useForm<Group>({
     mode: "onChange",
     resolver: yupResolver(
@@ -105,6 +104,7 @@ const GroupForm: React.FC<any> = () => {
     reset(data);
   }, [data]);
 
+  const [contacts, setContacts] = useState<Contact[]>([]);
   const onDeleteContact = (indexDeleted: number[]) =>
     setContacts((nodes) =>
       nodes.filter((contact, index) => !indexDeleted.includes(index))
@@ -220,7 +220,7 @@ const GroupForm: React.FC<any> = () => {
               </MuiCard>
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid item md={8} xs={12}>
               <MuiCard>
                 <MuiCardHead>
                   <Typography variant={"h6"}>Contact</Typography>

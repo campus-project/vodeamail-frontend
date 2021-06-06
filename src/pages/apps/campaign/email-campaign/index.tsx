@@ -7,6 +7,7 @@ import MuiDatatable, {
 } from "../../../../components/datatable/Index";
 import _ from "lodash";
 import DataDatetime from "../../../../components/data/Datetime";
+import DataNumberSI from "../../../../components/data/NumberSI";
 import ActionCell from "../../../../components/datatable/ActionCell";
 import { Box, Button, IconButton, Typography } from "@material-ui/core";
 import { Link as LinkDom } from "react-router-dom";
@@ -53,6 +54,34 @@ const EmailCampaignList: React.FC<any> = () => {
       columnName: "summary.from_email",
       options: {
         customBodyRender: (value) => _.get(value, "from_email"),
+      },
+    },
+    {
+      label: "Total Group",
+      name: "summary",
+      columnName: "summary.total_group",
+      options: {
+        customBodyRender: (value) => (
+          <DataNumberSI data={_.get(value, "total_group", 0)} />
+        ),
+      },
+    },
+    {
+      label: "Total Audience",
+      name: "summary",
+      columnName: "summary.total_audience",
+      options: {
+        customBodyRender: (value) => (
+          <DataNumberSI data={_.get(value, "total_audience", 0)} />
+        ),
+      },
+    },
+    {
+      label: "Send At",
+      name: "send_at",
+      columnName: "email_campaign.send_at",
+      options: {
+        customBodyRender: (value) => <DataDatetime data={value} />,
       },
     },
     {
