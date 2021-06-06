@@ -3,24 +3,10 @@ import { CssBaseline, ThemeProvider } from "@material-ui/core";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import MomentUtils from "@date-io/moment";
 import { SnackbarProvider } from "notistack";
-import { Navigate, Outlet } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { useJwtService } from "../../utilities/hooks/jwt.hook";
+import { Outlet } from "react-router-dom";
 import theme from "../theme";
-import Loading from "../../components/ui/Loading";
 
-const LayoutAuth: React.FC<any> = () => {
-  const { isOnFetchingUser } = useJwtService();
-  const { isLogged } = useSelector(({ auth }: any) => ({
-    isLogged: auth.isLogged,
-  }));
-
-  if (isOnFetchingUser) {
-    return <Loading />;
-  } else if (isLogged) {
-    return <Navigate to={"/apps/dashboard"} />;
-  }
-
+const LayoutGuest: React.FC<any> = () => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -40,4 +26,4 @@ const LayoutAuth: React.FC<any> = () => {
   );
 };
 
-export default LayoutAuth;
+export default LayoutGuest;

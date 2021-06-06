@@ -1,6 +1,5 @@
 import React from "react";
 import Percentage from "./Percentage";
-import { useSelector } from "react-redux";
 
 interface IPercentageDifferent {
   v1: string | number;

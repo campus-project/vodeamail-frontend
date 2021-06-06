@@ -1,10 +1,6 @@
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
-  status: {
-    display: "inline-block",
-    padding: `0 ${theme.spacing(1)}px`,
-  },
   campaignStepperContainer: {
     padding: `${theme.spacing(3)}px 0px`,
     margin: `0 ${theme.spacing(-1)}px`,

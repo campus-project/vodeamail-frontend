@@ -1,19 +1,22 @@
 import React, { lazy } from "react";
 import { Navigate } from "react-router";
-import LayoutAuth from "../layouts/auth";
 import LayoutApps from "../layouts/apps";
+import LayoutAuth from "../layouts/auth";
+import LayoutGuest from "../layouts/guest";
 
 //eslint-disable-next-line
 const Home = lazy(() => import("../pages/Home"));
 const Logout = lazy(() => import("../pages/Logout"));
 const NotFound = lazy(() => import("../pages/NotFound"));
 
+const Unsubscribe = lazy(() => import("../pages/a/Unsubscribe"));
+
 const Login = lazy(() => import("../pages/auth/Login"));
 const Register = lazy(() => import("../pages/auth/Register"));
 const ForgotPassword = lazy(() => import("../pages/auth/ForgotPassword"));
 const ResetPassword = lazy(() => import("../pages/auth/ResetPassword"));
 
-const Dashboard = lazy(() => import("../pages/apps/Dashboard"));
+const Dashboard = lazy(() => import("../pages/apps/dashboard"));
 const Profile = lazy(() => import("../pages/apps/profile"));
 
 const EmailCampaignList = lazy(
@@ -54,9 +57,14 @@ const GateSettingForm = lazy(
 );
 
 export const routes = [
-  // { path: "/", element: <Home /> },
-  { path: "/", element: <Navigate to={"/apps/dashboard"} /> },
+  { path: "/", element: <Home /> },
+  // { path: "/", element: <Navigate to={"/apps/dashboard"} /> },
   { path: "/logout", element: <Logout /> },
+  {
+    path: "a",
+    element: <LayoutGuest />,
+    children: [{ path: "u/:ref", element: <Unsubscribe /> }],
+  },
   {
     path: "auth",
     element: <LayoutAuth />,

@@ -1,22 +1,23 @@
 import React, { useCallback, useMemo, useState } from "react";
-import { useIsMounted } from "../../../../utilities/hooks/mounted.hook";
-import { EmailCampaign } from "../../../../models/EmailCampaign";
+import { IconButton, Typography } from "@material-ui/core";
+import { Link as LinkDom } from "react-router-dom";
+import { EditOutlined as EditOutlinedIcon } from "@material-ui/icons";
+import { AxiosResponse } from "axios";
+import MuiCard from "../../../components/ui/card/MuiCard";
+import MuiCardHead from "../../../components/ui/card/MuiCardHead";
+import { EmailCampaign } from "../../../models/EmailCampaign";
 import MuiDatatable, {
   IMuiDatatableColumn,
-} from "../../../../components/datatable/Index";
+} from "../../../components/datatable/Index";
+import { EmailCampaignRepository } from "../../../repositories/EmailCampaignRepository";
+import { Resource } from "../../../interfaces/Resource";
 import _ from "lodash";
-import DataDatetime from "../../../../components/data/Datetime";
-import DataNumberSI from "../../../../components/data/NumberSI";
-import ActionCell from "../../../../components/datatable/ActionCell";
-import { Box, IconButton, Typography } from "@material-ui/core";
-import { Link as LinkDom } from "react-router-dom";
-import { AssessmentOutlined as AssessmentOutlinedIcon } from "@material-ui/icons";
-import { AxiosResponse } from "axios";
-import { Resource } from "../../../../interfaces/Resource";
-import MuiCard from "../../../../components/ui/card/MuiCard";
-import { EmailCampaignRepository } from "../../../../repositories/EmailCampaignRepository";
+import DataNumber from "../../../components/data/Number";
+import DataDatetime from "../../../components/data/Datetime";
+import { useIsMounted } from "../../../utilities/hooks/mounted.hook";
+import ActionCell from "../../../components/datatable/ActionCell";
 
-const EmailAnalyticList: React.FC<any> = () => {
+const CardEmailCampaign: React.FC<any> = () => {
   const isMounted = useIsMounted();
 
   const [data, setData] = useState<EmailCampaign[]>([]);
@@ -25,41 +26,15 @@ const EmailAnalyticList: React.FC<any> = () => {
   const [dataQuery, setDataQuery] = useState<any>({
     page: 1,
     per_page: 5,
+    order_by: "email_campaign.updated_at",
+    sorted_by: "DESC",
   });
 
   const columns: IMuiDatatableColumn[] = [
     {
       label: "Name",
       name: "name",
-      columnName: "email_campaign.name",
-    },
-    {
-      label: "Subject",
-      name: "subject",
-      columnName: "email_campaign.subject",
-    },
-    {
-      label: "From Name",
-      name: "from_name",
-      columnName: "email_campaign.from_name",
-    },
-    {
-      label: "Email From",
-      name: "summary",
-      columnName: "summary.from_email",
-      options: {
-        customBodyRender: (value) => _.get(value, "from_email"),
-      },
-    },
-    {
-      label: "Total Group",
-      name: "summary",
-      columnName: "summary.total_group",
-      options: {
-        customBodyRender: (value) => (
-          <DataNumberSI data={_.get(value, "total_group", 0)} />
-        ),
-      },
+      columnName: "group.name",
     },
     {
       label: "Total Audience",
@@ -67,7 +42,7 @@ const EmailAnalyticList: React.FC<any> = () => {
       columnName: "summary.total_audience",
       options: {
         customBodyRender: (value) => (
-          <DataNumberSI data={_.get(value, "total_audience", 0)} />
+          <DataNumber data={_.get(value, "total_audience")} />
         ),
       },
     },
@@ -96,9 +71,9 @@ const EmailAnalyticList: React.FC<any> = () => {
             <ActionCell>
               <IconButton
                 component={LinkDom}
-                to={`/apps/analytic/email/${value}`}
+                to={`/apps/audience/group/${value}/edit`}
               >
-                <AssessmentOutlinedIcon />
+                <EditOutlinedIcon />
               </IconButton>
             </ActionCell>
           );
@@ -161,29 +136,25 @@ const EmailAnalyticList: React.FC<any> = () => {
   );
 
   return (
-    <>
-      <Box display={"flex"} justifyContent={"space-between"}>
-        <Typography variant={"h5"}>Email Analytic</Typography>
-      </Box>
+    <MuiCard>
+      <MuiCardHead borderless={1}>
+        <Typography variant={"h6"}>Newest Campaign</Typography>
+      </MuiCardHead>
 
-      <Box mt={3}>
-        <MuiCard>
-          <MuiDatatable
-            data={data}
-            columns={columns}
-            loading={loading}
-            onTableChange={onTableChange}
-            options={{
-              count: totalData,
-              page: dataQuery.page - 1,
-              rowsPerPage: dataQuery.per_page,
-            }}
-            inputSearch={{ onChange: onSearchChange }}
-          />
-        </MuiCard>
-      </Box>
-    </>
+      <MuiDatatable
+        data={data}
+        columns={columns}
+        loading={loading}
+        onTableChange={onTableChange}
+        options={{
+          count: totalData,
+          page: dataQuery.page - 1,
+          rowsPerPage: dataQuery.per_page,
+        }}
+        inputSearch={{ onChange: onSearchChange }}
+      />
+    </MuiCard>
   );
 };
 
-export default EmailAnalyticList;
+export default CardEmailCampaign;

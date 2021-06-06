@@ -1,4 +1,6 @@
 import { Group } from "./Group";
+import { SummaryEmailCampaign } from "./SummaryEmailCampaign";
+import { SummaryEmailCampaignAnalytic } from "./SummaryEmailCampaignAnalytic";
 
 export interface EmailCampaign {
   id?: string;
@@ -17,4 +19,7 @@ export interface EmailCampaign {
 
   group_ids?: string[];
   groups?: Group[];
+
+  summary?: SummaryEmailCampaign;
+  summary_email_campaign_analytics?: SummaryEmailCampaignAnalytic[];
 }

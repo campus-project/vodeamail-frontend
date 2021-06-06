@@ -14,6 +14,14 @@ export const EmailCampaignRepository = {
           .token,
     });
   },
+  usage: function (params: any = null) {
+    return api.get(`${endPoint()}/v1/email-campaign/view/usage`, {
+      params,
+      cancelToken:
+        cancelTokenHandlerObject[this.usage.name].handleRequestCancellation()
+          .token,
+    });
+  },
   show: function (id: number | string, params: any = null) {
     return api.get(`${endPoint()}/v1/email-campaign/${id}`, {
       params,
