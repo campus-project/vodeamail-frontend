@@ -181,7 +181,7 @@ const Register: React.FC<any> = () => {
                         color="primary"
                       />
                     }
-                    label="Agree With Terms and Conditions"
+                    label="I'm agree with Terms and Conditions"
                   />
                   <FormHelperText>
                     {_.get(errors, "term_and_condition.message")}
