@@ -21,12 +21,38 @@ jobs:
         run: yarn install
       - name: Execute tests (Unit and e2e tests)
         run: yarn test --watchAll=false
+  react-build-production:
+    name: Build Production
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install NPM Dependencies & Create .env
+        env:
+          REACT_APP_NAME: "Vodea Mail"
+          REACT_APP_GATEWAY_ENDPOINT: https://api.vodea.cloud/vodeamail
+          REACT_APP_JWT_END_POINT_TOKEN: https://api.vodea.cloud/vodeamail/v1/auth/login
+          REACT_APP_JWT_END_POINT_ACCOUNT: https://api.vodea.cloud/vodeamail/v1/account
+          REACT_APP_CAMPAIGN_DEFAULT_DOMAIN: vodeacloud.com
+          REACT_APP_UNSUBSCRIBE_URL: https://api.vodea.cloud/vodeamail-callback/v1/u
+        run: |
+          yarn install
+          yarn build
+      - name: Put built assets in Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: assets
+          path: build
   setup-build-publish-deploy:
     name: Setup, Build, and Publish
     runs-on: ubuntu-latest
-    needs: [app-tests]
+    needs: [app-tests, react-build-production]
     steps:
       - uses: actions/checkout@v2
+      - name: Fetch built assets from Artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: assets
+          path: build
       - name: Setup GCloud CLI
         uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
         with:
