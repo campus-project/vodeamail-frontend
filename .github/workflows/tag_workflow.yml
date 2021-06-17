@@ -26,12 +26,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: [app-tests]
     steps:
-      - uses: actions/checkout@v2
-      - name: Fetch built assets from Artifacts
-        uses: actions/download-artifact@v2
-        with:
-          name: assets
-          path: build
       - name: Setup GCloud CLI
         uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
         with:
