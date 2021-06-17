@@ -1,0 +1,21 @@
+name: Tag WorkFlow
+
+on:
+  push:
+    tags:
+      - v*
+
+jobs:
+  app-tests:
+    name: Setup CI
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Copy .env
+        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+      - name: Install NPM Dependencies
+        run: yarn install
+      - name: Execute tests (Unit and Feature tests) using jest
+        env:
+          DOT_ENV: ${{ secrets.DOT_ENV_PRODUCTION }}
+        run: yarn test --watchAll=false
