@@ -26,9 +26,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Install NPM Dependencies & Copy .env from Secret
+      - name: Install NPM Dependencies & Create .env
         env:
-          DOT_ENV: ${{ secrets.DOT_ENV_PRODUCTION }}
+          REACT_APP_NAME: "Vodea Mail"
+          REACT_APP_GATEWAY_ENDPOINT: https://api.vodea.cloud/vodeamail
+          REACT_APP_JWT_END_POINT_TOKEN: https://api.vodea.cloud/vodeamail/v1/auth/login
+          REACT_APP_JWT_END_POINT_ACCOUNT: https://api.vodea.cloud/vodeamail/v1/account
+          REACT_APP_CAMPAIGN_DEFAULT_DOMAIN: vodeacloud.com
+          REACT_APP_UNSUBSCRIBE_URL: https://api.vodea.cloud/vodeamail-callback/v1/u
         run: |
           yarn install
           yarn build
