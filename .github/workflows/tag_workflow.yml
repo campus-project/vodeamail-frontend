@@ -17,9 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Install NPM Dependencies & Copy .env from Secret
-        env:
-          DOT_ENV: ${{ secrets.DOT_ENV_PRODUCTION }}
+      - name: Install NPM Dependencies
         run: yarn install
       - name: Execute tests (Unit and e2e tests)
         run: yarn test --watchAll=false
