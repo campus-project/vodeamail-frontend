@@ -57,8 +57,8 @@ const GateSettingForm = lazy(
 );
 
 export const routes = [
-  { path: "/", element: <Home /> },
-  // { path: "/", element: <Navigate to={"/apps/dashboard"} /> },
+  // { path: "/", element: <Home /> },
+  { path: "/", element: <Navigate to={"/apps/dashboard"} /> },
   { path: "/logout", element: <Logout /> },
   {
     path: "a",
