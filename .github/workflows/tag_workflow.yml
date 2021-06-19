@@ -33,7 +33,7 @@ jobs:
           REACT_APP_JWT_END_POINT_TOKEN: http://api.vodea.cloud/v1/auth/login
           REACT_APP_JWT_END_POINT_ACCOUNT: http://api.vodea.cloud/v1/account
           REACT_APP_CAMPAIGN_DEFAULT_DOMAIN: vodeacloud.com
-          REACT_APP_UNSUBSCRIBE_URL: http://api.vodea.cloud/v1/public
+          REACT_APP_UNSUBSCRIBE_URL: http://www.vodeacloud.com/v1/u
         run: |
           yarn install
           yarn build
