@@ -121,108 +121,109 @@ const UserForm: React.FC<any> = () => {
   return (
     <>
       {onFetchData ? <Loading /> : null}
-      <Box
-        mb={3}
-        display={"flex"}
-        flexDirection={"row"}
-        alignItems={"center"}
-        style={onFetchData ? { display: "none" } : {}}
-      >
-        <Box mr={1.5}>
-          <MuiButtonIconRounded
-            onClick={() => navigate("/apps/preference/user")}
-          >
-            <NavigateBefore />
-          </MuiButtonIconRounded>
+      <Box style={onFetchData ? { display: "none" } : {}}>
+        <Box
+          mb={3}
+          display={"flex"}
+          flexDirection={"row"}
+          alignItems={"center"}
+        >
+          <Box mr={1.5}>
+            <MuiButtonIconRounded
+              onClick={() => navigate("/apps/preference/user")}
+            >
+              <NavigateBefore />
+            </MuiButtonIconRounded>
+          </Box>
+          <Typography variant={"h5"}>
+            {id ? "Update " : "Create "} User
+          </Typography>
         </Box>
-        <Typography variant={"h5"}>
-          {id ? "Update " : "Create "} User
-        </Typography>
-      </Box>
 
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <Grid container spacing={3}>
-            <Grid item md={8} xs={12}>
-              <MuiCard>
-                <MuiCardHead>
-                  <Typography variant={"h6"}>Information</Typography>
-                </MuiCardHead>
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
+            <Grid container spacing={3}>
+              <Grid item md={8} xs={12}>
+                <MuiCard>
+                  <MuiCardHead>
+                    <Typography variant={"h6"}>Information</Typography>
+                  </MuiCardHead>
 
-                <MuiCardBody>
-                  <Box py={1}>
-                    <Grid container spacing={3}>
-                      <Grid item md={6} xs={12}>
-                        <Controller
-                          control={control}
-                          name={"name"}
-                          render={({ ref, ...others }) => (
-                            <MuiTextField
-                              {...others}
-                              inputRef={ref}
-                              label={"Name"}
-                              error={_.has(errors, "name")}
-                              helperText={_.get(errors, "name.message")}
-                            />
-                          )}
-                        />
-                      </Grid>
-
-                      <Grid item md={6} xs={12}>
-                        <Controller
-                          control={control}
-                          name={"email"}
-                          render={({ ref, ...others }) => (
-                            <MuiTextField
-                              {...others}
-                              inputRef={ref}
-                              type={"email"}
-                              label={"Email"}
-                              error={_.has(errors, "email")}
-                              helperText={_.get(errors, "email.message")}
-                            />
-                          )}
-                        />
-                      </Grid>
-
-                      <Grid item xs={12}>
-                        <Controller
-                          control={control}
-                          name={"role_id"}
-                          render={({ value, onChange }) => {
-                            return (
-                              <MuiAutoComplete
-                                value={value}
-                                repository={RoleRepository}
-                                onSelected={(value) => onChange(value)}
-                                muiTextField={{
-                                  label: "Role",
-                                }}
+                  <MuiCardBody>
+                    <Box py={1}>
+                      <Grid container spacing={3}>
+                        <Grid item md={6} xs={12}>
+                          <Controller
+                            control={control}
+                            name={"name"}
+                            render={({ ref, ...others }) => (
+                              <MuiTextField
+                                {...others}
+                                inputRef={ref}
+                                label={"Name"}
+                                error={_.has(errors, "name")}
+                                helperText={_.get(errors, "name.message")}
                               />
-                            );
-                          }}
-                        />
+                            )}
+                          />
+                        </Grid>
+
+                        <Grid item md={6} xs={12}>
+                          <Controller
+                            control={control}
+                            name={"email"}
+                            render={({ ref, ...others }) => (
+                              <MuiTextField
+                                {...others}
+                                inputRef={ref}
+                                type={"email"}
+                                label={"Email"}
+                                error={_.has(errors, "email")}
+                                helperText={_.get(errors, "email.message")}
+                              />
+                            )}
+                          />
+                        </Grid>
+
+                        <Grid item xs={12}>
+                          <Controller
+                            control={control}
+                            name={"role_id"}
+                            render={({ value, onChange }) => {
+                              return (
+                                <MuiAutoComplete
+                                  value={value}
+                                  repository={RoleRepository}
+                                  onSelected={(value) => onChange(value)}
+                                  muiTextField={{
+                                    label: "Role",
+                                  }}
+                                />
+                              );
+                            }}
+                          />
+                        </Grid>
                       </Grid>
-                    </Grid>
-                  </Box>
-                </MuiCardBody>
-              </MuiCard>
+                    </Box>
+                  </MuiCardBody>
+                </MuiCard>
+              </Grid>
             </Grid>
           </Grid>
-        </Grid>
 
-        <Grid item xs={12}>
-          <MuiFormAction
-            title={"Save changes?"}
-            cancel={"Cancel"}
-            save={"Save"}
-            onCancel={() => navigate("/apps/preference/user")}
-            onSave={handleSubmit(onSubmit)}
-            saveDisable={loading}
-            saveLoading={loading}
-          />
+          <Grid item xs={12}>
+            <MuiFormAction
+              title={"Save changes?"}
+              cancel={"Cancel"}
+              save={"Save"}
+              onCancel={() => navigate("/apps/preference/user")}
+              onSave={handleSubmit(onSubmit)}
+              saveDisable={loading}
+              saveLoading={loading}
+            />
+          </Grid>
         </Grid>
-      </Grid>
+      </Box>
     </>
   );
 };

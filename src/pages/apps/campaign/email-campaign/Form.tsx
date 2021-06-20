@@ -220,75 +220,76 @@ const EmailCampaignForm: React.FC<any> = () => {
   return (
     <>
       {onFetchData ? <Loading /> : null}
-      <Box
-        mb={3}
-        display={"flex"}
-        flexDirection={"row"}
-        alignItems={"center"}
-        style={onFetchData ? { display: "none" } : {}}
-      >
-        <Box mr={1.5}>
-          <MuiButtonIconRounded
-            onClick={() => navigate("/apps/campaign/email-campaign")}
-          >
-            <NavigateBefore />
-          </MuiButtonIconRounded>
+      <Box style={onFetchData ? { display: "none" } : {}}>
+        <Box
+          mb={3}
+          display={"flex"}
+          flexDirection={"row"}
+          alignItems={"center"}
+        >
+          <Box mr={1.5}>
+            <MuiButtonIconRounded
+              onClick={() => navigate("/apps/campaign/email-campaign")}
+            >
+              <NavigateBefore />
+            </MuiButtonIconRounded>
+          </Box>
+          <Typography variant={"h5"}>
+            {id ? "Update " : "Create "} Email Campaign
+          </Typography>
         </Box>
-        <Typography variant={"h5"}>
-          {id ? "Update " : "Create "} Email Campaign
-        </Typography>
-      </Box>
 
-      <Grid container spacing={3}>
-        <Hidden smDown>
-          <Grid item xs={12}>
-            <Grid container spacing={3}>
-              <Grid item md={4} xs={12}>
-                <Stepper
-                  activeStep={step}
-                  className={classes.campaignStepperContainer}
-                  connector={<CampaignStepIconConnector />}
-                >
-                  {steps.map((label) => (
-                    <Step key={label}>
-                      <StepLabel
-                        StepIconComponent={CampaignStepIcon}
-                        className={classes.campaignStepper}
-                      >
-                        <Typography variant={"subtitle2"}>{label}</Typography>
-                      </StepLabel>
-                    </Step>
-                  ))}
-                </Stepper>
+        <Grid container spacing={3}>
+          <Hidden smDown>
+            <Grid item xs={12}>
+              <Grid container spacing={3}>
+                <Grid item md={4} xs={12}>
+                  <Stepper
+                    activeStep={step}
+                    className={classes.campaignStepperContainer}
+                    connector={<CampaignStepIconConnector />}
+                  >
+                    {steps.map((label) => (
+                      <Step key={label}>
+                        <StepLabel
+                          StepIconComponent={CampaignStepIcon}
+                          className={classes.campaignStepper}
+                        >
+                          <Typography variant={"subtitle2"}>{label}</Typography>
+                        </StepLabel>
+                      </Step>
+                    ))}
+                  </Stepper>
+                </Grid>
               </Grid>
             </Grid>
+          </Hidden>
+
+          <Grid item xs={12}>
+            <Box style={step === 0 ? {} : { display: "none" }}>
+              <FormSetting data={data} errors={errors} onNext={onNextSetting} />
+            </Box>
+
+            <Box style={step === 1 ? {} : { display: "none" }}>
+              <FormDesign
+                data={data}
+                errors={errors}
+                onPrevious={() => setStep(0)}
+                onNext={onNextDesign}
+              />
+            </Box>
+
+            <Box style={step === 2 ? {} : { display: "none" }}>
+              <FormPreview
+                data={data}
+                onPrevious={() => setStep(1)}
+                onNext={onSubmitPreview}
+                loading={loading}
+              />
+            </Box>
           </Grid>
-        </Hidden>
-
-        <Grid item xs={12}>
-          <Box style={step === 0 ? {} : { display: "none" }}>
-            <FormSetting data={data} errors={errors} onNext={onNextSetting} />
-          </Box>
-
-          <Box style={step === 1 ? {} : { display: "none" }}>
-            <FormDesign
-              data={data}
-              errors={errors}
-              onPrevious={() => setStep(0)}
-              onNext={onNextDesign}
-            />
-          </Box>
-
-          <Box style={step === 2 ? {} : { display: "none" }}>
-            <FormPreview
-              data={data}
-              onPrevious={() => setStep(1)}
-              onNext={onSubmitPreview}
-              loading={loading}
-            />
-          </Box>
         </Grid>
-      </Grid>
+      </Box>
     </>
   );
 };

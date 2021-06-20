@@ -238,189 +238,190 @@ const GateSettingForm: React.FC<any> = () => {
   return (
     <>
       {onFetchData ? <Loading /> : null}
-      <Box
-        mb={3}
-        display={"flex"}
-        flexDirection={"row"}
-        alignItems={"center"}
-        style={onFetchData ? { display: "none" } : {}}
-      >
-        <Box mr={1.5}>
-          <MuiButtonIconRounded
-            onClick={() => navigate("/apps/preference/gate-setting")}
-          >
-            <NavigateBefore />
-          </MuiButtonIconRounded>
+      <Box style={onFetchData ? { display: "none" } : {}}>
+        <Box
+          mb={3}
+          display={"flex"}
+          flexDirection={"row"}
+          alignItems={"center"}
+        >
+          <Box mr={1.5}>
+            <MuiButtonIconRounded
+              onClick={() => navigate("/apps/preference/gate-setting")}
+            >
+              <NavigateBefore />
+            </MuiButtonIconRounded>
+          </Box>
+          <Typography variant={"h5"}>
+            {id ? "Update " : "Create "} Gate Setting
+          </Typography>
         </Box>
-        <Typography variant={"h5"}>
-          {id ? "Update " : "Create "} Gate Setting
-        </Typography>
-      </Box>
 
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <Grid container spacing={3}>
-            <Grid item md={8} xs={12}>
-              <MuiCard>
-                <MuiCardHead>
-                  <Typography variant={"h6"}>Information</Typography>
-                </MuiCardHead>
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
+            <Grid container spacing={3}>
+              <Grid item md={8} xs={12}>
+                <MuiCard>
+                  <MuiCardHead>
+                    <Typography variant={"h6"}>Information</Typography>
+                  </MuiCardHead>
 
-                <MuiCardBody>
-                  <Box py={1}>
-                    <Grid container spacing={3}>
-                      <Grid item xs={6}>
-                        <Controller
-                          control={control}
-                          name={"name"}
-                          render={({ ref, ...others }) => (
-                            <MuiTextField
-                              {...others}
-                              inputRef={ref}
-                              label={"Name"}
-                              error={_.has(errors, "name")}
-                              helperText={_.get(errors, "name.message")}
-                            />
-                          )}
-                        />
-                      </Grid>
-
-                      <Grid item xs={6}>
-                        <Controller
-                          control={control}
-                          name={"valid_from"}
-                          defaultValue={data.valid_from || new Date()}
-                          render={({ ref, onChange, ...others }) => (
-                            <MuiDatePicker
-                              {...others}
-                              inputRef={ref}
-                              onChange={onChange}
-                              label={"Valid From"}
-                              error={_.has(errors, "valid_from")}
-                              helperText={_.get(errors, "valid_from.message")}
-                            />
-                          )}
-                        />
-                      </Grid>
-
-                      <Grid item xs={12}>
-                        <Controller
-                          control={control}
-                          name={"role_id"}
-                          render={({ value, onChange }) => {
-                            return (
-                              <MuiAutoComplete
-                                value={value}
-                                repository={RoleRepository}
-                                params={{ special: 0 }}
-                                onSelected={(value) => onChange(value)}
-                                muiTextField={{
-                                  label: "Role",
-                                }}
+                  <MuiCardBody>
+                    <Box py={1}>
+                      <Grid container spacing={3}>
+                        <Grid item xs={6}>
+                          <Controller
+                            control={control}
+                            name={"name"}
+                            render={({ ref, ...others }) => (
+                              <MuiTextField
+                                {...others}
+                                inputRef={ref}
+                                label={"Name"}
+                                error={_.has(errors, "name")}
+                                helperText={_.get(errors, "name.message")}
                               />
-                            );
-                          }}
-                        />
+                            )}
+                          />
+                        </Grid>
+
+                        <Grid item xs={6}>
+                          <Controller
+                            control={control}
+                            name={"valid_from"}
+                            defaultValue={data.valid_from || new Date()}
+                            render={({ ref, onChange, ...others }) => (
+                              <MuiDatePicker
+                                {...others}
+                                inputRef={ref}
+                                onChange={onChange}
+                                label={"Valid From"}
+                                error={_.has(errors, "valid_from")}
+                                helperText={_.get(errors, "valid_from.message")}
+                              />
+                            )}
+                          />
+                        </Grid>
+
+                        <Grid item xs={12}>
+                          <Controller
+                            control={control}
+                            name={"role_id"}
+                            render={({ value, onChange }) => {
+                              return (
+                                <MuiAutoComplete
+                                  value={value}
+                                  repository={RoleRepository}
+                                  params={{ special: 0 }}
+                                  onSelected={(value) => onChange(value)}
+                                  muiTextField={{
+                                    label: "Role",
+                                  }}
+                                />
+                              );
+                            }}
+                          />
+                        </Grid>
                       </Grid>
-                    </Grid>
-                  </Box>
-                </MuiCardBody>
-              </MuiCard>
-            </Grid>
+                    </Box>
+                  </MuiCardBody>
+                </MuiCard>
+              </Grid>
 
-            <Grid item xs={12}>
-              <MuiCard>
-                <MuiCardHead>
-                  <Typography variant={"h6"}>Permission</Typography>
-                </MuiCardHead>
+              <Grid item xs={12}>
+                <MuiCard>
+                  <MuiCardHead>
+                    <Typography variant={"h6"}>Permission</Typography>
+                  </MuiCardHead>
 
-                <MuiCardBody>
-                  <Box py={1}>
-                    <Grid container spacing={3}>
-                      <Grid item xs={12}>
-                        {onLoadTransaction ? (
-                          <PermissionLoaderSkeleton />
-                        ) : (
-                          <Table>
-                            <TableBody>
-                              {transactions.map((transaction) => {
-                                const options =
-                                  transaction.permissions === undefined
-                                    ? []
-                                    : _.orderBy(
-                                        transaction.permissions,
-                                        ["ability"],
-                                        ["asc"]
-                                      );
+                  <MuiCardBody>
+                    <Box py={1}>
+                      <Grid container spacing={3}>
+                        <Grid item xs={12}>
+                          {onLoadTransaction ? (
+                            <PermissionLoaderSkeleton />
+                          ) : (
+                            <Table>
+                              <TableBody>
+                                {transactions.map((transaction) => {
+                                  const options =
+                                    transaction.permissions === undefined
+                                      ? []
+                                      : _.orderBy(
+                                          transaction.permissions,
+                                          ["ability"],
+                                          ["asc"]
+                                        );
 
-                                const defaultValue =
-                                  transaction.id === undefined
-                                    ? []
-                                    : defaultTransactionPermission[
-                                        transaction.id
-                                      ] || [];
+                                  const defaultValue =
+                                    transaction.id === undefined
+                                      ? []
+                                      : defaultTransactionPermission[
+                                          transaction.id
+                                        ] || [];
 
-                                return (
-                                  <TableRow key={transaction.id}>
-                                    <TableCell width={200}>
-                                      <Typography>
-                                        {transaction.name}
-                                      </Typography>
-                                    </TableCell>
-                                    <TableCell>
-                                      <Autocomplete
-                                        defaultValue={defaultValue}
-                                        options={options}
-                                        getOptionLabel={(option) =>
-                                          _.get(option, "ability")
-                                        }
-                                        getOptionSelected={(option, value) =>
-                                          _.get(option, "id") ===
-                                          _.get(value, "id")
-                                        }
-                                        multiple
-                                        disableCloseOnSelect
-                                        onChange={(event, value) =>
-                                          handleChangePermission(
-                                            _.get(transaction, "id", ""),
-                                            value
-                                          )
-                                        }
-                                        renderInput={(params) => (
-                                          <MuiTextField
-                                            {...params}
-                                            label={"Ability"}
-                                          />
-                                        )}
-                                      />
-                                    </TableCell>
-                                  </TableRow>
-                                );
-                              })}
-                            </TableBody>
-                          </Table>
-                        )}
+                                  return (
+                                    <TableRow key={transaction.id}>
+                                      <TableCell width={200}>
+                                        <Typography>
+                                          {transaction.name}
+                                        </Typography>
+                                      </TableCell>
+                                      <TableCell>
+                                        <Autocomplete
+                                          defaultValue={defaultValue}
+                                          options={options}
+                                          getOptionLabel={(option) =>
+                                            _.get(option, "ability")
+                                          }
+                                          getOptionSelected={(option, value) =>
+                                            _.get(option, "id") ===
+                                            _.get(value, "id")
+                                          }
+                                          multiple
+                                          disableCloseOnSelect
+                                          onChange={(event, value) =>
+                                            handleChangePermission(
+                                              _.get(transaction, "id", ""),
+                                              value
+                                            )
+                                          }
+                                          renderInput={(params) => (
+                                            <MuiTextField
+                                              {...params}
+                                              label={"Ability"}
+                                            />
+                                          )}
+                                        />
+                                      </TableCell>
+                                    </TableRow>
+                                  );
+                                })}
+                              </TableBody>
+                            </Table>
+                          )}
+                        </Grid>
                       </Grid>
-                    </Grid>
-                  </Box>
-                </MuiCardBody>
-              </MuiCard>
+                    </Box>
+                  </MuiCardBody>
+                </MuiCard>
+              </Grid>
             </Grid>
           </Grid>
-        </Grid>
 
-        <Grid item xs={12}>
-          <MuiFormAction
-            title={"Save changes?"}
-            cancel={"Cancel"}
-            save={"Save"}
-            onCancel={() => navigate("/apps/preference/gate-setting")}
-            onSave={handleSubmit(onSubmit)}
-            saveDisable={loading}
-            saveLoading={loading}
-          />
+          <Grid item xs={12}>
+            <MuiFormAction
+              title={"Save changes?"}
+              cancel={"Cancel"}
+              save={"Save"}
+              onCancel={() => navigate("/apps/preference/gate-setting")}
+              onSave={handleSubmit(onSubmit)}
+              saveDisable={loading}
+              saveLoading={loading}
+            />
+          </Grid>
         </Grid>
-      </Grid>
+      </Box>
     </>
   );
 };

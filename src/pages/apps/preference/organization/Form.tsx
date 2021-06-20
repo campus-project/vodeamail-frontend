@@ -114,100 +114,101 @@ const OrganizationForm: React.FC<any> = () => {
   return (
     <>
       {onFetchData ? <Loading /> : null}
-      <Box
-        mb={3}
-        display={"flex"}
-        flexDirection={"row"}
-        alignItems={"center"}
-        style={onFetchData ? { display: "none" } : {}}
-      >
-        <Box mr={1.5}>
-          <MuiButtonIconRounded onClick={() => navigate("/apps/preference")}>
-            <NavigateBefore />
-          </MuiButtonIconRounded>
+      <Box style={onFetchData ? { display: "none" } : {}}>
+        <Box
+          mb={3}
+          display={"flex"}
+          flexDirection={"row"}
+          alignItems={"center"}
+        >
+          <Box mr={1.5}>
+            <MuiButtonIconRounded onClick={() => navigate("/apps/preference")}>
+              <NavigateBefore />
+            </MuiButtonIconRounded>
+          </Box>
+          <Typography variant={"h5"}>Update Organization</Typography>
         </Box>
-        <Typography variant={"h5"}>Update Organization</Typography>
-      </Box>
 
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <Grid container spacing={3}>
-            <Grid item md={8} xs={12}>
-              <MuiCard>
-                <MuiCardHead>
-                  <Typography variant={"h6"}>Information</Typography>
-                </MuiCardHead>
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
+            <Grid container spacing={3}>
+              <Grid item md={8} xs={12}>
+                <MuiCard>
+                  <MuiCardHead>
+                    <Typography variant={"h6"}>Information</Typography>
+                  </MuiCardHead>
 
-                <MuiCardBody>
-                  <Box py={1}>
-                    <Grid container spacing={3}>
-                      <Grid item xs={12}>
-                        <Controller
-                          control={control}
-                          name={"name"}
-                          render={({ ref, ...others }) => (
-                            <MuiTextField
-                              {...others}
-                              inputRef={ref}
-                              label={"Name"}
-                              error={_.has(errors, "name")}
-                              helperText={_.get(errors, "name.message")}
-                            />
-                          )}
-                        />
+                  <MuiCardBody>
+                    <Box py={1}>
+                      <Grid container spacing={3}>
+                        <Grid item xs={12}>
+                          <Controller
+                            control={control}
+                            name={"name"}
+                            render={({ ref, ...others }) => (
+                              <MuiTextField
+                                {...others}
+                                inputRef={ref}
+                                label={"Name"}
+                                error={_.has(errors, "name")}
+                                helperText={_.get(errors, "name.message")}
+                              />
+                            )}
+                          />
+                        </Grid>
+
+                        <Grid item md={6} xs={12}>
+                          <Controller
+                            control={control}
+                            name={"telephone"}
+                            render={({ ref, ...others }) => (
+                              <MuiTextField
+                                {...others}
+                                inputRef={ref}
+                                label={"Telephone"}
+                                error={_.has(errors, "telephone")}
+                                helperText={_.get(errors, "telephone.message")}
+                              />
+                            )}
+                          />
+                        </Grid>
+
+                        <Grid item md={6} xs={12}>
+                          <Controller
+                            control={control}
+                            name={"fax"}
+                            render={({ ref, ...others }) => (
+                              <MuiTextField
+                                {...others}
+                                inputRef={ref}
+                                label={"Fax"}
+                                error={_.has(errors, "fax")}
+                                helperText={_.get(errors, "fax.message")}
+                              />
+                            )}
+                          />
+                        </Grid>
                       </Grid>
-
-                      <Grid item md={6} xs={12}>
-                        <Controller
-                          control={control}
-                          name={"telephone"}
-                          render={({ ref, ...others }) => (
-                            <MuiTextField
-                              {...others}
-                              inputRef={ref}
-                              label={"Telephone"}
-                              error={_.has(errors, "telephone")}
-                              helperText={_.get(errors, "telephone.message")}
-                            />
-                          )}
-                        />
-                      </Grid>
-
-                      <Grid item md={6} xs={12}>
-                        <Controller
-                          control={control}
-                          name={"fax"}
-                          render={({ ref, ...others }) => (
-                            <MuiTextField
-                              {...others}
-                              inputRef={ref}
-                              label={"Fax"}
-                              error={_.has(errors, "fax")}
-                              helperText={_.get(errors, "fax.message")}
-                            />
-                          )}
-                        />
-                      </Grid>
-                    </Grid>
-                  </Box>
-                </MuiCardBody>
-              </MuiCard>
+                    </Box>
+                  </MuiCardBody>
+                </MuiCard>
+              </Grid>
             </Grid>
           </Grid>
-        </Grid>
 
-        <Grid item xs={12}>
-          <MuiFormAction
-            title={"Save changes?"}
-            cancel={"Cancel"}
-            save={"Save"}
-            onCancel={() => navigate("/apps/preference")}
-            onSave={handleSubmit(onSubmit)}
-            saveDisable={loading}
-            saveLoading={loading}
-          />
+          <Grid item xs={12}>
+            <MuiFormAction
+              title={"Save changes?"}
+              cancel={"Cancel"}
+              save={"Save"}
+              onCancel={() => navigate("/apps/preference")}
+              onSave={handleSubmit(onSubmit)}
+              saveDisable={loading}
+              saveLoading={loading}
+            />
+          </Grid>
         </Grid>
-      </Grid>
+      </Box>
     </>
   );
 };

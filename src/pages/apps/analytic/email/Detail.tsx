@@ -101,108 +101,111 @@ const AnalyticEmailDetail: React.FC<any> = () => {
   return (
     <>
       {onFetchData ? <Loading /> : null}
-      <Box
-        mb={3}
-        display={"flex"}
-        flexDirection={"row"}
-        alignItems={"center"}
-        style={onFetchData ? { display: "none" } : {}}
-      >
-        <Box mr={1.5}>
-          <MuiButtonIconRounded
-            onClick={() => navigate("/apps/analytic/email")}
-          >
-            <NavigateBefore />
-          </MuiButtonIconRounded>
+      <Box style={onFetchData ? { display: "none" } : {}}>
+        <Box
+          mb={3}
+          display={"flex"}
+          flexDirection={"row"}
+          alignItems={"center"}
+        >
+          <Box mr={1.5}>
+            <MuiButtonIconRounded
+              onClick={() => navigate("/apps/analytic/email")}
+            >
+              <NavigateBefore />
+            </MuiButtonIconRounded>
+          </Box>
+          <Typography variant={"h5"}>
+            {data.name || "Email Analytic"}
+          </Typography>
         </Box>
-        <Typography variant={"h5"}>{data.name || "Email Analytic"}</Typography>
+
+        <Grid container spacing={3}>
+          <Grid item md={6} xs={12}>
+            <Grid container spacing={3}>
+              <Grid item xs={12}>
+                <Box className={classes.cardSummaryContainer}>
+                  <CardSummary
+                    icon={"vicon-people"}
+                    title={"Delivered"}
+                    value={data?.summary?.total_delivered || 0}
+                    percentage={() => (
+                      <DataPercentageDifferent
+                        v1={data?.summary?.total_delivered || 0}
+                        v2={data?.summary?.total_audience || 0}
+                      />
+                    )}
+                  />
+
+                  <CardSummary
+                    icon={"vicon-people"}
+                    title={"Opened"}
+                    value={data?.summary?.total_opened || 0}
+                    percentage={() => (
+                      <DataPercentageDifferent
+                        v1={data?.summary?.total_opened || 0}
+                        v2={data?.summary?.total_audience || 0}
+                      />
+                    )}
+                  />
+
+                  <CardSummary
+                    icon={"vicon-people"}
+                    title={"Engagement"}
+                    value={data?.summary?.total_clicked || 0}
+                    percentage={() => (
+                      <DataPercentageDifferent
+                        v1={data?.summary?.total_clicked || 0}
+                        v2={data?.summary?.total_audience || 0}
+                      />
+                    )}
+                  />
+
+                  <CardSummary
+                    icon={"vicon-people"}
+                    title={"Unsubscribe"}
+                    danger={true}
+                    value={data?.summary?.total_unsubscribe || 0}
+                    percentage={() => (
+                      <DataPercentageDifferent
+                        v1={data?.summary?.total_unsubscribe || 0}
+                        v2={data?.summary?.total_audience || 0}
+                      />
+                    )}
+                  />
+                </Box>
+              </Grid>
+
+              <Grid item xs={12}>
+                <EmailCampaignAudience
+                  totalAudience={data?.summary?.total_audience}
+                  groups={groups}
+                />
+              </Grid>
+            </Grid>
+          </Grid>
+
+          <Grid item md={6} xs={12}>
+            <Grid container spacing={3}>
+              <Grid item xs={12}>
+                <EmailCampaignSummary
+                  subject={data.subject}
+                  sendAt={data.send_at}
+                  lastOpened={data?.summary?.last_opened}
+                  lastClicked={data?.summary?.last_clicked}
+                  avgOpenDuration={data?.summary?.avg_open_duration}
+                />
+              </Grid>
+
+              <Grid item xs={12}>
+                <EmailCampaignPerformance
+                  summaryEmailCampaignAnalytics={summaryEmailCampaignAnalytics}
+                />
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
       </Box>
-
-      <Grid container spacing={3}>
-        <Grid item md={6} xs={12}>
-          <Grid container spacing={3}>
-            <Grid item xs={12}>
-              <Box className={classes.cardSummaryContainer}>
-                <CardSummary
-                  icon={"vicon-people"}
-                  title={"Delivered"}
-                  value={data?.summary?.total_delivered || 0}
-                  percentage={() => (
-                    <DataPercentageDifferent
-                      v1={data?.summary?.total_delivered || 0}
-                      v2={data?.summary?.total_audience || 0}
-                    />
-                  )}
-                />
-
-                <CardSummary
-                  icon={"vicon-people"}
-                  title={"Opened"}
-                  value={data?.summary?.total_opened || 0}
-                  percentage={() => (
-                    <DataPercentageDifferent
-                      v1={data?.summary?.total_opened || 0}
-                      v2={data?.summary?.total_audience || 0}
-                    />
-                  )}
-                />
-
-                <CardSummary
-                  icon={"vicon-people"}
-                  title={"Engagement"}
-                  value={data?.summary?.total_clicked || 0}
-                  percentage={() => (
-                    <DataPercentageDifferent
-                      v1={data?.summary?.total_clicked || 0}
-                      v2={data?.summary?.total_audience || 0}
-                    />
-                  )}
-                />
-
-                <CardSummary
-                  icon={"vicon-people"}
-                  title={"Unsubscribe"}
-                  danger={true}
-                  value={data?.summary?.total_unsubscribe || 0}
-                  percentage={() => (
-                    <DataPercentageDifferent
-                      v1={data?.summary?.total_unsubscribe || 0}
-                      v2={data?.summary?.total_audience || 0}
-                    />
-                  )}
-                />
-              </Box>
-            </Grid>
-
-            <Grid item xs={12}>
-              <EmailCampaignAudience
-                totalAudience={data?.summary?.total_audience}
-                groups={groups}
-              />
-            </Grid>
-          </Grid>
-        </Grid>
-
-        <Grid item md={6} xs={12}>
-          <Grid container spacing={3}>
-            <Grid item xs={12}>
-              <EmailCampaignSummary
-                subject={data.subject}
-                sendAt={data.send_at}
-                lastOpened={data?.summary?.last_opened}
-                lastClicked={data?.summary?.last_clicked}
-                avgOpenDuration={data?.summary?.avg_open_duration}
-              />
-            </Grid>
-
-            <Grid item xs={12}>
-              <EmailCampaignPerformance
-                summaryEmailCampaignAnalytics={summaryEmailCampaignAnalytics}
-              />
-            </Grid>
-          </Grid>
-        </Grid>
-      </Grid>
     </>
   );
 };
