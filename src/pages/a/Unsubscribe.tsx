@@ -6,7 +6,7 @@ import validator from "validator";
 import axios from "axios";
 
 const unsubscribeURL = () =>
-  process.env.REACT_APP_UNSUBSCRIBE_URL || "http://localhost:3010/v1/u";
+  process.env.REACT_APP_UNSUBSCRIBE_URL || "http://public.vodea.cloud/v1/u";
 
 const Unsubscribe: React.FC<any> = () => {
   const { ref } = useParams();
