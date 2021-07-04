@@ -134,7 +134,7 @@ const Register: React.FC<any> = () => {
                     id={"organization_name"}
                     type={"text"}
                     name={"organization_name"}
-                    label={"Perusahaan atau organisasi"}
+                    label={"Company or organization"}
                     variant="outlined"
                     inputRef={register()}
                     error={_.has(errors, "organization_name")}
